@@ -1,11 +1,11 @@
 import java.util.*;
+import java.util.stream.Collectors;
 class Persion{
     private int ID;
     private String fullName;
     private String email;
     private String city;
     private String state;
-
     private String zipcode;
     private String phoneNumber;
     Persion(int ID,String fullName, String email,String city,String state,String zipcode,String phoneNumber){
@@ -51,10 +51,16 @@ class Persion{
          return phoneNumber;
      }
      public String toString(){
-         String details = ID+" "+fullName+" "+email+" "+city+" "+state+" "+zipcode+" "+phoneNumber;
+         String details = ID+" = "+fullName+" = "+email+" = "+city+" = "+state+" = "+zipcode+" = "+phoneNumber;
          return details;
       }
- }
+    public String getFullName(Persion persion) {
+        return persion.getFullName();
+    }
+    public String getCity(Persion persion) {
+        return persion.getCity();
+    }
+}
 public class Addressbook{
     public static void main(String[] args) {
         System.out.println();
@@ -68,6 +74,10 @@ public class Addressbook{
             System.out.println("4.Delete ");
             System.out.println("5.Update");
             System.out.println("6.counting");
+            System.out.println("7.sorting by Name");
+            System.out.println("8.sorting by city");
+            System.out.println("9.sorting by state");
+            System.out.println("10.sorting by zipcode");
             System.out.println("0.Exit");
             System.out.println("your choice option here enter number");
             Scanner sc = new Scanner(System.in);
@@ -168,21 +178,21 @@ public class Addressbook{
                         if(p.getID()== Id){
                             String line = sc.nextLine();
                             System.out.println("Enter New id");
-                             int id = sc.nextInt();
+                            int id = sc.nextInt();
                             String line_1 = sc.nextLine();
                             System.out.println("Enter new  full name :");
                             fullNam = sc.nextLine();
                             System.out.println("Enter new   email :");
-                           String email = sc.nextLine();
+                            String email = sc.nextLine();
                             System.out.println("Enter new city name :");
-                          String  city = sc.nextLine();
+                            String  city = sc.nextLine();
                             System.out.println("Enter new  state name :");
-                          String  state = sc.nextLine();
+                            String  state = sc.nextLine();
                             System.out.println("Enter new  zipcode  :");
-                          String  zipcode = sc.nextLine();
+                            String  zipcode = sc.nextLine();
                             System.out.println("Enter  new  phone Number :");
-                          String  phoneNumber = sc.nextLine();
-                          listN.set(new Persion(id,fullNam,email,city,state,zipcode,phoneNumber));
+                            String  phoneNumber = sc.nextLine();
+                            listN.set(new Persion(id,fullNam,email,city,state,zipcode,phoneNumber));
                             found = true;
                         }
                     }
@@ -196,12 +206,12 @@ public class Addressbook{
                     }
                     break;
                 case 6:
-                    Iterator<Persion>p= list.iterator();
+                    Iterator<Persion> iterator_second= list.iterator();
                     long countCity=0;
                     long countPersion=0;
                     long countState=0;
-                    while (p.hasNext()){
-                        Persion persion =p.next();
+                    while (iterator_second.hasNext()){
+                        Persion persion =iterator_second.next();
                      countCity=  list.stream().filter(city -> persion.getCity()!=null).count();
                      countPersion=  list.stream().filter(city -> persion.getCity()!=null).count();
                      countState=  list.stream().filter(city -> persion.getCity()!=null).count();
@@ -209,6 +219,30 @@ public class Addressbook{
                     System.out.println("city :"+countCity);
                     System.out.println("state :"+countState);
                     System.out.println("Persion :"+countPersion);
+                    break;
+                case 7:
+                    List<Persion> sortedByName =list.stream().sorted(Comparator.comparing(Persion::getFullName)).collect(Collectors.toList());
+                    for(int index=0; index<sortedByName.size(); index++){
+                        System.out.println(sortedByName.get(index));
+                    }
+                   break;
+                case 8:
+                    List<Persion> sortedByCity =list.stream().sorted(Comparator.comparing(Persion::getCity)).collect(Collectors.toList());
+                    for(int index=0; index<sortedByCity.size(); index++){
+                        System.out.println(sortedByCity.get(index));
+                    }
+                    break;
+                case 9:
+                    List<Persion> sortedByState =list.stream().sorted(Comparator.comparing(Persion::getState)).collect(Collectors.toList());
+                    for(int index=0; index< sortedByState.size(); index++){
+                        System.out.println( sortedByState.get(index));
+                    }
+                    break;
+                case 10:
+                    List<Persion> sortedByZipPin =list.stream().sorted(Comparator.comparing(Persion::getZipcode)).collect(Collectors.toList());
+                    for(int index=0; index<sortedByZipPin.size(); index++){
+                        System.out.println(sortedByZipPin.get(index));
+                    }
                     break;
             }
         }while (choice!=0);
